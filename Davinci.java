@@ -1,7 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
-import java.util.Random;
 
 
 public class Davinci {
@@ -19,14 +16,17 @@ public class Davinci {
         playerDeck = new Tile[11];
         initTiles(fullTiles);
 
-        frame = new JFrame("DaVinci Code");
+        frame = new JFrame("Davin ci Code");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 800);
 
         // set Panel
-        currentPanel = new StartUI();
+        StartUI startUI = new StartUI();
+        currentPanel = startUI;
         frame.add(currentPanel);
         frame.setVisible(true);
+
+        startUI.getBtnStart().addActionListener(e -> startGame());
     }
 
     //create 22tiles
@@ -39,29 +39,24 @@ public class Davinci {
 
     public void startGame() {
         distributeTiles();
-        printDecks();
-        computerTrun();
-    }
 
-    public void playerTurn() {
+        Tile.sortByModulo(playerDeck);
+        Tile.sortByModulo(computerDeck);
+        printDecks(); //테스트 지워도됨
+
         frame.remove(currentPanel);
         currentPanel = new GameUI(computerDeck, playerDeck, fullTiles, tiles);
         frame.add(currentPanel);
+        frame.revalidate();
         frame.repaint();
 
-        System.out.println("player turn");
-    }
 
-    public void computerTrun() {
-        frame.remove(currentPanel);
-        currentPanel = new GameUI(computerDeck, playerDeck, fullTiles, tiles);
-        frame.add(currentPanel);
-        frame.repaint();
 
-        System.out.println("computer turn");
+        System.out.println("start game");
     }
 
 
+    //테스트를 위한 함수로 지워도 됩니다.
     public void printDecks() {
         System.out.println("Computer Deck:");
         for (Tile tile : computerDeck) {
@@ -92,9 +87,6 @@ public class Davinci {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
             Davinci game = new Davinci();
-            game.startGame();
-        });
     }
 }

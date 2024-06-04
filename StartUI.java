@@ -1,5 +1,7 @@
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StartUI extends JPanel {
 
@@ -7,10 +9,12 @@ public class StartUI extends JPanel {
     private JLabel lblTitle;
     private JButton btnStart, btnHowto, btnEnd;
 
+    private boolean IsStart=false, IsEnd=false;
+
+
     public StartUI() {
         setBackground(Color.white);
         setLayout(null);
-
 
         // set Panel
         titlePanel = new JPanel();
@@ -38,12 +42,24 @@ public class StartUI extends JPanel {
         btnStart.setBounds(10, 10, 280, 330);
         buttonPanel.add(btnStart);
 
-        btnHowto = new JButton("How To");
-        btnHowto.setBounds(10, 350, 280, 165);
-        buttonPanel.add(btnHowto);
-
         btnEnd = new JButton("End");
         btnEnd.setBounds(10, 525, 280, 165);
+        btnEnd.addActionListener(new EndAction());
         buttonPanel.add(btnEnd);
     }
+
+    public JButton getBtnStart() {
+        return btnStart;
+    }
+
+    private class EndAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            IsEnd = true;
+            // 프로그램 종료
+            System.exit(0);
+        }
+    }
+
+
 }

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 public class Tile {
 
@@ -18,14 +19,18 @@ public class Tile {
         button.setPreferredSize(new Dimension(100, 30));
     }
 
-//    public static void sortTile(Tile[] tiles) {
-//        Arrays.sort(tiles, new Comparator<Tile>() {
-//            @Override
-//            public int compare(Tile t1, Tile t2) {
-//                return Integer.compare(t1.getNumber(), t2.getNumber());
-//            }
-//        });
-//    }
+    //배열 정렬
+    public static void sortByModulo(Tile[] tiles) {
+        Arrays.sort(tiles, new Comparator<Tile>() {
+            @Override
+            public int compare(Tile t1, Tile t2) {
+                if (t1 == null || t2 == null) {
+                    return 0;
+                }
+                return Integer.compare(t1.getNumber() % 100, t2.getNumber() % 100);
+            }
+        });
+    }
 
     // 타일 배열의 모든 타일이 뒤집혀졌는지 확인
     public static boolean isFullFaced(Tile[] tiles) {
@@ -37,6 +42,36 @@ public class Tile {
             }
         }
         return true;
+    }
+
+    public static boolean isInList(Tile target, int[] tileList){
+        if(target == null){
+            return false;
+        }
+
+        for (int i : tileList) {
+            if (i == 0) {
+                continue;
+            }
+
+            if (target.getNumber() == i) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static Tile chooseRandomTile(Tile[] tofliptiles) {
+        if (tofliptiles == null || tofliptiles.length == 0) {
+            return null; // 타일 리스트가 비어있을 때를 대비한 처리
+        }
+        Random rand = new Random();
+        Tile result = tofliptiles[rand.nextInt(tofliptiles.length)];
+        while (result == null) {
+            result = tofliptiles[rand.nextInt(tofliptiles.length)];
+        }
+        return result;
     }
 
     public int getNumber(){
@@ -59,6 +94,10 @@ public class Tile {
 
     public String toString() {
         return " " + number + " ";
+    }
+
+    public String toStringNumber(){
+        return " " + number%100 + " ";
     }
 
     private void updateBackgroundColor() {
