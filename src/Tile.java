@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Random;
 
 public class Tile {
@@ -13,7 +15,7 @@ public class Tile {
     public Tile(int number) {
         this.number = number;
         this.isFaceUp = false;
-        this.button = new JButton("?");
+        this.button = new JButton("<");
 
         updateBackgroundColor();
         button.setPreferredSize(new Dimension(100, 30));
@@ -85,7 +87,18 @@ public class Tile {
     public void flip(){
         isFaceUp = !isFaceUp;
 
-        button.setText(isFaceUp ? String.valueOf(number) : "?");
+        button.setText(isFaceUp ? String.valueOf(number) : "<");
+
+//        if(!isFaceUp){
+//            new ImageIcon(Objects.requireNonNull(getClass().getResource("/Tiles/" + number + ".png")));
+//        }
+//        else if(number/100 == 1){
+//            new ImageIcon(Objects.requireNonNull(getClass().getResource("/Tiles/" + 100 + ".png")));
+//        }
+//        else{
+//            new ImageIcon(Objects.requireNonNull(getClass().getResource("/Tiles/" + 200 + ".png")));
+//        }
+
     }
 
     public JButton getButton() {
@@ -108,5 +121,16 @@ public class Tile {
             button.setBackground(Color.BLACK);
             button.setForeground(Color.WHITE);
         }
+
+//        String imagePath = "/Tiles/" + number + ".png";
+//        URL imgURL = getClass().getResource(imagePath);
+//        if (imgURL != null) {
+//            ImageIcon imageIcon = new ImageIcon(imgURL);
+//            button.setIcon(imageIcon);
+//        } else {
+//            System.out.println("이미지 파일을 찾을 수 없습니다: " + imagePath);
+//        }
+//        button.setFocusPainted(false);
+//        button.setContentAreaFilled(false);
     }
 }

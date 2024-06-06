@@ -75,6 +75,17 @@ public class GameUI extends JPanel {
             }
         }
         add(playerTilePanel);
+
+        Random rand = new Random();
+        int firstTurn = rand.nextInt(2);
+        if(firstTurn == 0){
+            addComputerTile(tilesGame, computerDeckGame, comTilePanel);
+            computerTurn();
+            System.out.println("computer first");
+        }
+        else{
+            System.out.println("player first");
+        }
     }
 
     private class ComTileButtonListener implements ActionListener {
@@ -119,7 +130,15 @@ public class GameUI extends JPanel {
             if(selectedTile.getNumber() == tempTile.getNumber()){ //상대 카드를 맞춘 경우
                 selectedTile.getButton().setBorder(BorderFactory.createLineBorder(Color.black));
                 selectedTile.flip();
+                selectedTile.getButton().setText(selectedTile.toStringNumber());
                 selectedTile = null;
+
+                if(checkEnd(playerDeckGame, computerDeckGame) == 1){
+                    System.out.println("computer win");
+                }
+                else if (checkEnd(playerDeckGame, computerDeckGame) == 2){
+                    System.out.println("player win");
+                }
             } else { // 상대 카드를 맞추기 못한 경우
                 //내 덱에 하나 오픈
                 tempTile = Tile.chooseRandomTile(playerDeckGame);
